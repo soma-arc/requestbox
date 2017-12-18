@@ -3,6 +3,7 @@ import Root from './vue/root.vue';
 const firebase = require('firebase/app');
 const FIREBASE_CONFIG = require('./config.json');
 require('firebase/database');
+require('firebase/auth');
 
 window.addEventListener('load', function() {
     firebase.initializeApp(FIREBASE_CONFIG);
@@ -31,5 +32,13 @@ window.addEventListener('load', function() {
     posts.on('child_changed', function(data) {
         console.log('updated');
         console.log(data.val());
+    });
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            console.log('authorized')
+        } else {
+            console.log('sign out')
+        }
     });
 });
