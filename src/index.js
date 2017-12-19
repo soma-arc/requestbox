@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Root from './vue/root.vue';
+import User from './user.js';
 const firebase = require('firebase/app');
 const FIREBASE_CONFIG = require('./config.json');
 require('firebase/database');
@@ -8,9 +9,11 @@ require('firebase/auth');
 window.addEventListener('load', function() {
     firebase.initializeApp(FIREBASE_CONFIG);
 
-    const dataList = [];
+    const requestList = [];
+    const loggedInUser = User.EMPTY_USER;
     const d = {
-        dataList: dataList
+        requestList: requestList,
+        loggedInUser: loggedInUser
     };
     /* eslint-disable no-new */
     new Vue({
@@ -27,7 +30,7 @@ window.addEventListener('load', function() {
     posts.on('child_added', function(data) {
         console.log('push');
         console.log(data.val());
-        dataList.push(data.val());
+        requestList.push(data.val());
     });
     posts.on('child_changed', function(data) {
         console.log('updated');
