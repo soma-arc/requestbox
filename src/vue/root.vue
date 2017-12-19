@@ -11,7 +11,15 @@
     <button @click="signOut">Sign out</button><br>
     Title<input v-model="title"><br>
     Date<flat-pickr v-model="date"
-                    :config="config"></flat-pickr>
+                    :config="flatPickrConfig"></flat-pickr><br>
+    Deadline<flat-pickr v-model="deadline"
+                        :config="flatPickrConfig"></flat-pickr><br>
+    Location<input><br>
+    Rewards<input><br>
+    Abstract<input><br>
+    Details<br>
+    <textarea></textarea>
+    <br>
     <button @click="postRequest">Send</button>
     <div class="container">
       <div class="row">
@@ -41,6 +49,11 @@ export default {
             email: '',
             password: '',
             date: new Date(),
+            deadline: new Date(),
+            flatPickrConfig: {
+                enableTime: true,
+                time_24hr: true
+            },
         };
     },
     methods: {
@@ -70,3 +83,10 @@ export default {
     }
 }
 </script>
+
+<style>
+input:focus {
+  background-color: none;
+  outline: none;
+}
+</style>
