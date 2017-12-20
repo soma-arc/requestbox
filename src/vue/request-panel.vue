@@ -1,16 +1,16 @@
 <template>
   <div>
-    Title<input v-model="title"><br>
+    <h2>Request</h2>
+    Title <input v-model="title">
     Date<flat-pickr v-model="date"
-                    :config="flatPickrConfig"></flat-pickr><br>
+                    :config="flatPickrConfig"></flat-pickr>
     Deadline<flat-pickr v-model="deadline"
-                        :config="flatPickrConfig"></flat-pickr><br>
-    Location<input><br>
-    Rewards<input><br>
-    Abstract<input><br>
-    Details<br>
+                        :config="flatPickrConfig"></flat-pickr>
+    Location<input>
+    Rewards<input>
+    Abstract<input>
+    Details
     <textarea></textarea>
-    <br>
     <button @click="postRequest">Send</button>
   </div>
 </template>
@@ -47,3 +47,6 @@ export default {
     }
 }
 </script>
+
+<style>
+</style>

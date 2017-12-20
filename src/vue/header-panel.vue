@@ -3,11 +3,12 @@
     <div id="left-container">
       <a href="/" class="logo">RequestBox</a>
       <v-link  href="/" role="button">Home</v-link>
-      <v-link  href="/register" role="button">Register</v-link>
       <v-link  href="/request" role="button">Request</v-link>
     </div>
     <div id="right-container">
       <p class="header-label" v-show="loggedInUser.authorized">{{ loggedInUser.name }}</p>
+      <v-link  href="/register" role="button"
+               v-show="loggedInUser.authorized == false">Register</v-link>
       <v-link  href="/sign-in" role="button"
                v-show="loggedInUser.authorized == false">SignIn</v-link>
       <button @click="signOut" role="button"

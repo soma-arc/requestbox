@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h2>Request Board</h2>
     <div class="row">
       <div v-for="data in requestList" class="card small">
         <div class="section">
@@ -17,3 +18,16 @@ export default {
 }
 </script>
 
+<style>
+.container {
+
+}
+
+.row {
+    width: 90%;
+}
+
+.card {
+    height: 200px;
+}
+</style>

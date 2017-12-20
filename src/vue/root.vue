@@ -4,7 +4,8 @@
                   :loggedInUser="loggedInUser"></header-panel>
     <keep-alive>
       <transition name="component-fade" mode="out-in">
-        <component v-bind:is="viewComponent"
+        <component id="main-panel"
+                   v-bind:is="viewComponent"
                    :currentRoute="currentRoute"
                    :requestList="requestList"
                    :loggedInUser="loggedInUser"></component>
@@ -56,4 +57,12 @@ input:focus {
 /* .component-fade-leave-active for below version 2.1.8 */ {
   opacity: 0;
 }
+
+#main-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
 </style>
