@@ -1,5 +1,5 @@
 {
-    "/": "home-panel",
+    "/": "board-panel",
     "/sign-in": "sign-in-panel",
     "/register": "register-panel",
     "/request": "request-panel"

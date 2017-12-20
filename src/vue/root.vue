@@ -17,7 +17,7 @@
 <script>
 import ROUTES from '../routes.json';
 import RegisterPanel from './register-panel.vue';
-import HomePanel from './home-panel.vue';
+import BoardPanel from './board-panel.vue';
 import RequestPanel from './request-panel.vue';
 import SignInPanel from './sign-in-panel.vue';
 import HeaderPanel from './header-panel.vue';
@@ -34,7 +34,7 @@ export default {
         }
     },
     components: {
-        HomePanel,
+        BoardPanel,
         RegisterPanel,
         RequestPanel,
         SignInPanel,

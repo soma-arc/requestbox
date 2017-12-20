@@ -46,7 +46,7 @@ export default class User {
      * @param {User} userSlot
      * @returns {User}
      */
-    static LoginWithEmailAndPassword(email, password, userSlot) {
+    static SignInWithEmailAndPassword(email, password, userSlot) {
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
             const errorCode = error.code;
             const errorMessage = error.message;

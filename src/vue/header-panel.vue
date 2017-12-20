@@ -2,7 +2,7 @@
   <header>
     <div id="left-container">
       <a href="/" class="logo">RequestBox</a>
-      <v-link  href="/" role="button">Home</v-link>
+      <v-link  href="/" role="button">Board</v-link>
       <v-link  href="/request" role="button">Request</v-link>
     </div>
     <div id="right-container">

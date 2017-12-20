@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Root from './vue/root.vue';
 import User from './user.js';
+import Request from './request.js';
 const firebase = require('firebase/app');
 const FIREBASE_CONFIG = require('./config.json');
 require('firebase/database');
@@ -31,7 +32,7 @@ window.addEventListener('load', function() {
     posts.on('child_added', function(data) {
         console.log('push');
         console.log(data.val());
-        requestList.push(data.val());
+        requestList.push(Request.CreateFromDBData(data.val()));
     });
     posts.on('child_changed', function(data) {
         console.log('updated');
@@ -40,6 +41,10 @@ window.addEventListener('load', function() {
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
+            if (d.loggedInUser.authorized === false) {
+                d.loggedInUser.setData(user.uid, user.email, '',
+                                       '', true);
+            }
             console.log('authorized')
         } else {
             console.log('sign out')
