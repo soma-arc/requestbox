@@ -13,10 +13,11 @@ window.addEventListener('load', function() {
     const loggedInUser = User.EMPTY_USER;
     const d = {
         requestList: requestList,
-        loggedInUser: loggedInUser
+        loggedInUser: loggedInUser,
+        currentRoute: window.location.pathname
     };
     /* eslint-disable no-new */
-    new Vue({
+    const app = new Vue({
         el: '#app',
         data: d,
         render: (h) => {
@@ -43,5 +44,9 @@ window.addEventListener('load', function() {
         } else {
             console.log('sign out')
         }
+    });
+
+    window.addEventListener('popstate', () => {
+        app.currentRoute = window.location.pathname;
     });
 });

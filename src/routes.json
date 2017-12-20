@@ -1,0 +1,6 @@
+{
+    "/": "home-panel",
+    "/sign-in": "sign-in-panel",
+    "/register": "register-panel",
+    "/request": "request-panel"
+}

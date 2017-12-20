@@ -1,85 +1,43 @@
 <template>
   <div>
-    <h3 v-if="loggedInUser.authorized">loggedIn {{ loggedInUser.name }}</h3>
-    <h3 v-else>Not LoggedIn</h3>
-    Name<input v-model="name"><br>
-    Lab<input v-model="lab"><br>
-    email<input v-model="email"><br>
-    password<input v-model="password"><br>
-    <button @click="register">Register</button>
-    <button @click="signInGoogle">Sign in with Google</button>
-    <button @click="signOut">Sign out</button><br>
-    Title<input v-model="title"><br>
-    Date<flat-pickr v-model="date"
-                    :config="flatPickrConfig"></flat-pickr><br>
-    Deadline<flat-pickr v-model="deadline"
-                        :config="flatPickrConfig"></flat-pickr><br>
-    Location<input><br>
-    Rewards<input><br>
-    Abstract<input><br>
-    Details<br>
-    <textarea></textarea>
-    <br>
-    <button @click="postRequest">Send</button>
-    <div class="container">
-      <div class="row">
-        <div v-for="data in requestList" class="card small">
-          <div class="section">
-            <h3>{{ data.title }}</h3>
-            <p>Card content...</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <header-panel :currentRoute="currentRoute"
+                  :loggedInUser="loggedInUser"></header-panel>
+    <keep-alive>
+      <transition name="component-fade" mode="out-in">
+        <component v-bind:is="viewComponent"
+                   :currentRoute="currentRoute"
+                   :requestList="requestList"
+                   :loggedInUser="loggedInUser"></component>
+      </transition>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import FlatPickr from 'vue-flatpickr-component';
-import User from '../user.js';
-const firebase = require('firebase/app');
+import ROUTES from '../routes.json';
+import RegisterPanel from './register-panel.vue';
+import HomePanel from './home-panel.vue';
+import RequestPanel from './request-panel.vue';
+import SignInPanel from './sign-in-panel.vue';
+import HeaderPanel from './header-panel.vue';
 
 export default {
-    props: ['requestList', 'loggedInUser'],
+    props: ['currentRoute', 'requestList', 'loggedInUser'],
     data: function() {
         return {
-            title: '',
-            name: '',
-            lab: '',
-            email: '',
-            password: '',
-            date: new Date(),
-            deadline: new Date(),
-            flatPickrConfig: {
-                enableTime: true,
-                time_24hr: true
-            },
         };
     },
-    methods: {
-        postRequest: function() {
-            const newPostKey = firebase.database().ref().child('posts').push().key;
-            const postData = {
-                id: newPostKey,
-                title: this.title,
-                name: this.name
-            }
-            firebase.database().ref(`/posts/${newPostKey}`).update(postData);
-        },
-        register: function() {
-            console.log('register');
-            User.RegisterWithEmailAndPassword(this.name, this.email,
-                                              this.lab, this.password, this.loggedInUser);
-        },
-        signInGoogle: function() {
-            User.SignInWithGoogle(this.loggedInUser);
-        },
-        signOut: function() {
-            this.loggedInUser.signOut(this.loggedInUser);
+    computed: {
+        viewComponent: function() {
+            return ROUTES[this.currentRoute];
         }
     },
     components: {
-        FlatPickr
+        HomePanel,
+        RegisterPanel,
+        RequestPanel,
+        SignInPanel,
+        HeaderPanel,
     }
 }
 </script>
@@ -88,5 +46,14 @@ export default {
 input:focus {
   background-color: none;
   outline: none;
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active for below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
