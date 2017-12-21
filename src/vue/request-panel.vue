@@ -82,4 +82,9 @@ export default {
 </script>
 
 <style>
+textarea {
+    resize: none;
+    width: 400px;
+    height: 200px;
+}
 </style>

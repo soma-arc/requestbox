@@ -8,11 +8,11 @@
       <span>条件: {{ request.requirements }}</span><br>
       <span>報酬: {{ request.rewards }}</span><br>
     </div>
-    <label class="button" for="modal-toggle">Show details</label>
-    <input id="modal-toggle" type="checkbox"/>
+    <label class="button" v-bind:for="request.id">Show details</label>
+    <input v-bind:id="request.id" type="checkbox"/>
     <div class="modal">
       <div class="card">
-        <label for="modal-toggle" class="close"></label>
+        <label v-bind:for="request.id" class="close"></label>
         <h3 class="section">{{ request.title }}</h3>
         <div class="request-content">
           <p class="section">{{ request.details }}</p>
