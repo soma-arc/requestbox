@@ -27,93 +27,39 @@ export default class User {
 
     /**
      *
-     * @param {User} userSlot
+     * @returns {Promise}
      */
-    signOut(userSlot) {
-        firebase.auth().signOut().then(function() {
-            userSlot.setData('', '', '', '', false);
-        }).catch(function(error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`${errorCode} ... ${errorMessage}`);
-        });
+    signOut() {
+        return firebase.auth().signOut();
     }
 
     /**
      *
      * @param {String} email
      * @param {Strint} password
-     * @param {User} userSlot
-     * @returns {User}
+     * @returns {Promise}
      */
-    static SignInWithEmailAndPassword(email, password, userSlot) {
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`${errorCode} ... ${errorMessage}`);
-        }).then(() => {
-            const user = firebase.auth().currentUser;
-            firebase.database().ref(`/users/${user.uid}`).once('value').catch(function(error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(`${errorCode} ... ${errorMessage}`);
-                userSlot.setData(user.uid, email, '', '', true);
-            }).then(function(data) {
-                const d = data.val();
-                userSlot.setData(user.uid, email, d.name, d.lab, true);
-            });
-        });
-        return undefined;
+    static SignInWithEmailAndPassword(email, password) {
+        return firebase.auth().signInWithEmailAndPassword(email, password);
     }
 
     /**
      *
-     * @param {String} name
      * @param {String} email
-     * @param {String} lab
      * @param {String} password
-     * @param {User} userSlot
-     * @returns {User}
+     * @returns {Promise}
      */
-    static RegisterWithEmailAndPassword(name, email, lab, password, userSlot) {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .catch(function(error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(`${errorCode} ... ${errorMessage}`);
-            }).then(() => {
-                const user = firebase.auth().currentUser;
-                if (user) {
-                    firebase.database().ref(`users/${user.uid}`).set({
-                        id: user.uid,
-                        name: name,
-                        lab: lab
-                    });
-
-                    userSlot.setData(user.uid, email, name, lab, true);
-                }
-            });
+    static RegisterWithEmailAndPassword(email, password) {
+        return firebase.auth().createUserWithEmailAndPassword(email, password);
     }
 
     /**
      *
-     * @param {User} userSlot
+     * @return {Promise}
      */
-    static SignInWithGoogle(userSlot) {
+    static SignInWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
-            .catch(function(error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                // const email = error.email;
-                // const credential = error.credential;
-                console.log(`${errorCode} ... ${errorMessage}`);
-            }).then(function(result) {
-                const user = result.user;
-                console.log(user)
-                userSlot.setData(user.uid, user.email, user.displayName, '', true);
-            });
+        return firebase.auth().signInWithPopup(provider);
     }
 
     static get EMPTY_USER() {

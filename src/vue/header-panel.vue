@@ -24,7 +24,21 @@ export default {
     props: ['currentRoute', 'loggedInUser'],
     methods: {
         signOut: function() {
-            this.loggedInUser.signOut(this.loggedInUser);
+            this.loggedInUser.signOut()
+                .catch((error) => {
+                    console.log(`${error.code} ... ${error.message}`);
+                }).then(() => {
+                    this.loggedInUser.setData('', '', '', '', false);
+                    this.goToBoard();
+                });
+        },
+        goToBoard: function() {
+            this.$root.currentRoute = '/';
+            window.history.pushState(
+                null,
+                'board-panel',
+                '/'
+            );
         }
     },
     components: {

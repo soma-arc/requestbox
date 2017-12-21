@@ -13,11 +13,15 @@
     Details
     <textarea v-model="details"></textarea>
     <button @click="postRequest">Send</button>
+    <transition name="component-fade" mode="out-in">
+      <error-card :error="errorObj" v-show="errorObj.code"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import FlatPickr from 'vue-flatpickr-component';
+import ErrorCard from './error-card.vue';
 import Request from '../request.js';
 
 export default {
@@ -36,6 +40,7 @@ export default {
                 enableTime: true,
                 time_24hr: true
             },
+            errorObj: {}
         }
     },
     methods: {
@@ -54,21 +59,24 @@ export default {
             this.rewards = '';
             this.abstract = '';
             this.details = '';
+            this.errorObj = {};
         },
         checkInputs: function() {
+            // TODO: check inputs
             return true;
         },
         goToBoard: function() {
-            this.$root.currentRoute = '/'
+            this.$root.currentRoute = '/';
             window.history.pushState(
                 null,
                 'board-panel',
                 '/'
-            )
+            );
         }
     },
     components: {
-        FlatPickr
+        FlatPickr,
+        ErrorCard
     }
 }
 </script>

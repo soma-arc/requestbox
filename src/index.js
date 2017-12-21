@@ -30,12 +30,11 @@ window.addEventListener('load', function() {
     const db = firebase.database();
     const posts = db.ref('/posts');
     posts.on('child_added', function(data) {
-        console.log('push');
-        console.log(data.val());
+        // console.log(data.val());
         requestList.push(Request.CreateFromDBData(data.val()));
     });
     posts.on('child_changed', function(data) {
-        console.log('updated');
+        // console.log('updated');
         console.log(data.val());
     });
 
