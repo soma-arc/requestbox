@@ -11,7 +11,7 @@
     <label class="button" v-bind:for="request.id">Show details</label>
     <input v-bind:id="request.id" type="checkbox"/>
     <div class="modal">
-      <div class="card">
+      <div class="card large modal-card">
         <label v-bind:for="request.id" class="close"></label>
         <h3 class="section">{{ request.title }}</h3>
         <div class="request-content">
@@ -41,10 +41,15 @@ export default {
 .request-content {
     flex: 1;
     vertical-align: top;
-    padding: 5px;
+    padding: 10px;
 }
 
 .button {
     text-align: center;
+}
+
+.modal-card {
+    height: 500px;
+    padding: 5px;
 }
 </style>
