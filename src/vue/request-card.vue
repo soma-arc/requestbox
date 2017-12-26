@@ -1,10 +1,13 @@
 <template>
-  <div class="card small">
+  <div class="card medium">
     <h3 class="section">{{ request.title }}</h3>
     <div class="request-content">
-      <span class="section">{{ request.abstract }}</span><br>
       <span>場所: {{ request.location }}</span><br>
-      <span>日時: {{ request.dateOfExperiment }}</span><br>
+      <div v-for="(date, index) in request.dateOfExperiment">
+          <span>日時: {{ date }}</span><br>
+      </div>
+      <span>時間: {{ request.time }}</span><br>
+      <span>形式: {{ request.form }}</span><br>
       <span>条件: {{ request.requirements }}</span><br>
       <span>報酬: {{ request.rewards }}</span><br>
     </div>
@@ -13,13 +16,23 @@
     <div class="modal">
       <div class="card large modal-card">
         <label v-bind:for="request.id" class="close"></label>
-        <h3 class="section">{{ request.title }}</h3>
+          <div class="section">
+              <span><h3>{{ request.title }}</h3>
+                  応募期限 {{ request.dateOfDeadline }}</span>
+          </div>
         <div class="request-content">
-          <p class="section">{{ request.details }}</p>
           <span>場所: {{ request.location }}</span><br>
-          <span>日時: {{ request.dateOfExperiment }}</span><br>
+          <div v-for="(date, index) in dateOfExperiment">
+              <span>日時: {{ date }}</span><br>
+          </div>
+          <span>所要時間: {{ request.time }}</span><br>
+          <span>実験形式: {{ request.format }}</span><br>
+          <span>募集人数: {{ request.num }}人</span><br>
           <span>条件: {{ request.requirements }}</span><br>
           <span>報酬: {{ request.rewards }}</span><br>
+          <span>連絡先: {{ request.rewards }}</span><br>
+          詳細
+          <p class="section">{{ request.details }}</p>
         </div>
       </div>
     </div>
@@ -34,7 +47,7 @@ export default {
 
 <style>
 .card {
-    height: 250px;
+    height: 280px;
     display: flex;
 }
 
