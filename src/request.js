@@ -8,7 +8,7 @@ export default class Request {
      * @param {String} title
      * @param {String} location
      * @param {String} format
-     * @param {String} dateOfExperiment
+     * @param {[String]} dateOfExperiment
      * @param {String} dateOfDeadline
      * @param {String} time
      * @param {Number} num
@@ -37,6 +37,7 @@ export default class Request {
     }
 
     static CreateFromDBData(obj) {
+        console.log(obj.details.replace('//n', '<br>'));
         return new Request(obj.id, obj.authorId, obj.title,
                            obj.location, obj.format, obj.dateOfExperiment,
                            obj.dateOfDeadline, obj.time, obj.num, obj.requirements,
@@ -49,7 +50,7 @@ export default class Request {
      * @param {String} title
      * @param {String} location
      * @param {String} format
-     * @param {String} dateOfExperiment
+     * @param {[String]} [dateOfExperiment]
      * @param {String} dateOfDeadline
      * @param {String} time
      * @param {Number} num

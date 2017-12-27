@@ -6,7 +6,8 @@
       <v-link  href="/request" role="button">Request</v-link>
     </div>
     <div id="right-container">
-      <p class="header-label" v-show="loggedInUser.authorized">{{ loggedInUser.name }}</p>
+      <v-link href="/home" role="button"
+              v-show="loggedInUser.authorized">{{ loggedInUser.name }}</v-link>
       <v-link  href="/register" role="button"
                v-show="loggedInUser.authorized == false">Register</v-link>
       <v-link  href="/sign-in" role="button"

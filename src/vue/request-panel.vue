@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>Request</h2>
+    <h2>実験依頼を投稿する</h2>
     タイトル<input v-model="title">
     場所<input v-model="location">
-    日時
+    実験日時
     <div v-for="(dateInput, index) in dateList">
         <span>
             <flat-pickr v-model="dateList[index]"
@@ -16,15 +16,21 @@
                         :config="flatPickrConfig"/>
     報酬<input v-model="rewards">
     募集人数<input v-model="num" type="number" min="1">
-    時間<flat-pickr v-model="time" :config="flatPickrTimeConfig"/>
+    所要時間<flat-pickr v-model="time" :config="flatPickrTimeConfig"/>
     形式<br>
     <div class="input-group">
+        <input type="radio" id="rad3" v-model="format"
+               name="format-radio" value="experiment" tabindex="0"
+               checked="checked"><label for="rad3">実験</label>
         <input type="radio" id="rad1" v-model="format"
-               name="format-radio" value="anc" tabindex="0"><label for="rad1">アンケート</label>
+               name="format-radio" value="questionnaire" tabindex="0"><label for="rad1">アンケート</label>
         <input type="radio" id="rad2" v-model="format"
                name="format-radio" value="other" tabindex="0"><label for="rad2">その他</label>
     </div>
-    条件<input v-model="requirements">
+    <transition name="component-fade" mode="out-in">
+      <input v-show="format === 'other'" v-model="formatOther">
+    </transition>
+    募集条件<input v-model="requirements">
     連絡先<input v-model="contact">
     詳細
     <textarea v-model="details"></textarea>
@@ -55,11 +61,18 @@ export default {
             abstract: '',
             contact: '',
             details: '',
-            format: '',
+            format: 'experiment',
+            formatOther: '',
             num: 1,
             flatPickrConfig: {
                 enableTime: true,
-                time_24hr: true
+                time_24hr: true,
+                enable: [
+                    function(date) {
+                        // return true to enable
+                        return (date.getTime() > new Date().getTime());
+                    }
+                ]
             },
             flatPickrTimeConfig: {
                 enableTime: true,
@@ -74,8 +87,16 @@ export default {
     methods: {
         postRequest: function() {
             if (this.checkInputs() === false) return;
+            let formatStr = '';
+            if(this.format === 'experiment') {
+                formatStr = '実験'
+            } else if (this.format === 'questionnaire') {
+                formatStr = 'アンケート'
+            } else if (this.format === 'other') {
+                formatStr = this.formatOther
+            }
             Request.AddToDatabase(this.loggedInUser.id, this.title, this.location,
-                                  this.format, this.dateList, this.deadline,
+                                  formatStr, this.dateList, this.deadline,
                                   this.time, this.num, this.requirements,
                                   this.rewards, this.abstract, this.contact, this.details);
             this.initFields();
@@ -85,6 +106,7 @@ export default {
             this.title = '';
             this.location = '';
             this.format = '';
+            this.formatOther = '';
             this.requirements = '';
             this.rewards = '';
             this.abstract = '';
