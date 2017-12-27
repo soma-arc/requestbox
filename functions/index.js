@@ -2,12 +2,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNewPostNortification = functions.database.ref('/posts/{postId}/details')
+exports.sendNewPostNotification = functions.database.ref('/posts/{postId}')
     .onCreate(event => {
-        const original = event.data.val();
-        const uppercase = original.toUpperCase();
+        const newPost = event.data.val();
         console.log('new post!')
-
+        console.log(newPost);
         // Get the list of device notification tokens.
         const getDeviceTokensPromise = admin.database().ref('/tokens').once('value');
 
@@ -18,13 +17,14 @@ exports.sendNewPostNortification = functions.database.ref('/posts/{postId}/detai
             if (!tokensSnapshot.hasChildren()) {
                 return console.log('There are no notification tokens to send to.');
             }
-            console.log('There are', tokensSnapshot.numChildren(), 'tokens to send notifications to.');
+            console.log(`There are ${tokensSnapshot.numChildren()} tokens to send notifications to.`);
 
             // Notification details.
             const payload = {
                 notification: {
-                    title: 'You have a new follower!',
-                    body: 'is now following you.',
+                    body: newPost.title,
+                    title: '新たな実験依頼が投稿されました',
+                    click_action: 'https://exp-requestbox.firebaseapp.com/'
                 }
             };
 
