@@ -6,6 +6,7 @@ const firebase = require('firebase/app');
 const FIREBASE_CONFIG = require('./config.json');
 require('firebase/database');
 require('firebase/auth');
+require('firebase/messaging')
 
 window.addEventListener('load', function() {
     firebase.initializeApp(FIREBASE_CONFIG);
@@ -52,5 +53,21 @@ window.addEventListener('load', function() {
 
     window.addEventListener('popstate', () => {
         app.currentRoute = window.location.pathname;
+    });
+
+    const messaging = firebase.messaging();
+    messaging.onTokenRefresh(function() {
+        messaging.getToken()
+            .then(function(refreshedToken) {
+                console.log('Token refreshed.');
+                firebase.database().ref(`/tokns/${refreshedToken}`).set(true);
+            })
+            .catch(function(err) {
+                console.log('Unable to retrieve refreshed token ', err);
+            });
+    });
+
+    messaging.onMessage(function(payload) {
+        console.log("Message received. ", payload);
     });
 });

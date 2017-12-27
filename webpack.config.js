@@ -8,11 +8,14 @@ const src  = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'public');
 
 module.exports = () => ({
-    entry: `${src}/index.js`,
+    entry: {
+        bundle: `${src}/index.js`,
+        firebaseMessagingSw: `${src}/firebase-messaging-sw.js`,
+    },
 
     output: {
         path: dist,
-        filename: 'bundle.js',
+        filename: '[name].js',
     },
 
     module: {

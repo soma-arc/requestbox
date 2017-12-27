@@ -4,6 +4,8 @@
       <a href="/" class="logo">RequestBox</a>
       <v-link  href="/" role="button">Board</v-link>
       <v-link  href="/request" role="button">Request</v-link>
+      <button @click="req" role="button"
+              >request</button>
     </div>
     <div id="right-container">
       <v-link href="/home" role="button"
@@ -20,7 +22,8 @@
 
 <script>
 import VLink from './v-link.vue';
-
+ const firebase = require('firebase/app');
+ 
 export default {
     props: ['currentRoute', 'loggedInUser'],
     methods: {
@@ -40,6 +43,31 @@ export default {
                 'board-panel',
                 '/'
             );
+        },
+        req: function() {
+            const messaging = firebase.messaging();
+            navigator.serviceWorker.register('firebaseMessagingSw.js')
+                     .then((registration) => {
+                         messaging.useServiceWorker(registration);
+                         messaging.requestPermission()
+                                  .then(() => {
+                                      console.log('Notification permission granted.');
+                                      messaging.getToken()
+                                               .then((currentToken) => {
+                                                   if (currentToken) {
+                                                       firebase.database().ref(`/tokens/${currentToken}`).set(true);
+                                                   } else {
+                                                       console.log('No Instance ID token available. Request permission to generate one.');
+                                                   }
+                                               })
+                                               .catch((err) => {
+                                                   console.log('An error occurred while retrieving token. ', err);
+                                               });
+                                  })
+                                  .catch(function(err) {
+                                      console.log('Unable to get permission to notify.', err);
+                                  });
+                     });
         }
     },
     components: {

@@ -37,7 +37,6 @@ export default class Request {
     }
 
     static CreateFromDBData(obj) {
-        console.log(obj.details.replace('//n', '<br>'));
         return new Request(obj.id, obj.authorId, obj.title,
                            obj.location, obj.format, obj.dateOfExperiment,
                            obj.dateOfDeadline, obj.time, obj.num, obj.requirements,
