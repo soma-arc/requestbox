@@ -1,5 +1,5 @@
 <template>
-  <div class="card medium">
+  <div class="card medium" v-bind:class="{ deadlineWarning: closedToDeadline }">
       <h3 class="section">{{ request.title }}</h3>
       <div class="request-content">
           依頼者: {{ request.authorName }} {{ request.authorLab | requestLabFormat }}<br>
@@ -59,7 +59,14 @@ export default {
              if (value === '') return '';
              return `(${value}研)`;
          }
-     }
+     },
+    computed: {
+        closedToDeadline: function() {
+            const deadline = new Date(this.request.dateOfDeadline);
+            // three days
+            return (deadline.getTime() - new Date().getTime()) < 259200000;
+        }
+    }
 }
 </script>
 
@@ -82,5 +89,9 @@ export default {
 .modal-card {
     height: 500px;
     padding: 5px;
+}
+
+.deadlineWarning {
+    background-color: LemonChiffon;
 }
 </style>

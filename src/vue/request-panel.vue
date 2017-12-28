@@ -17,9 +17,9 @@
     募集期限<flat-pickr v-model="deadline"
                         :config="flatPickrConfig"/>
     報酬<input v-model="rewards">
-    募集人数<input v-model="num" type="number" min="1">
+    募集人数<input v-model.number="num" type="number" min="1">
     所要時間<flat-pickr v-model="time" :config="flatPickrTimeConfig"/>
-    形式<br>
+    形態<br>
     <div class="input-group">
         <input type="radio" id="rad3" v-model="format"
                name="format-radio" value="experiment" tabindex="0"
@@ -51,11 +51,13 @@ import Request from '../request.js';
 export default {
     props: ['currentRoute', 'requestList', 'loggedInUser'],
     data: function() {
+        const deadline = new Date();
+        deadline.setDate(deadline.getDate() + 14);
         return {
             title: '',
             location: '',
             date: new Date(),
-            deadline: new Date(),
+            deadline: deadline,
             dateList: [],
             time: new Date(2013, 2, 1, 0, 30),
             requirements: '',

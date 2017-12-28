@@ -2,9 +2,9 @@
 <div>
   <h2>Request Board</h2>
   <div class="row">
-      <request-card v-for="data in requestList" :request="data" key="data.id"/>
-    </div>
+    <request-card v-for="data in requestList" :request="data" key="data.id"/>
   </div>
+</div>
 </template>
 
 <script>
