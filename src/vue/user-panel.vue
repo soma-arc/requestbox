@@ -13,11 +13,17 @@
   </div>
   <button @click="saveChange">変更を保存</button>
   <h2>投稿履歴</h2>
+  <div class="row">
+    <request-edit-card v-for="data in filteredRequestList" :request="data" key="data.id"/>
+  </div>
+</div>
 </div>
 </template>
 
 <script>
+import RequestEditCard from './request-edit-card.vue';
 const firebase = require('firebase/app');
+
 export default {
     props: ['currentRoute', 'requestList', 'loggedInUser'],
     methods: {
@@ -26,6 +32,16 @@ export default {
                 this.loggedInUser.lab
             );
         }
+    },
+    computed: {
+        filteredRequestList: function() {
+            return this.requestList.filter((data, index, ar) => {
+                return data.authorId === this.loggedInUser.id;
+            });
+        }
+    },
+    components: {
+        RequestEditCard
     }
 }
 </script>
@@ -40,5 +56,9 @@ export default {
     padding: 10px;
     content-align:center;
     width: 80%;
+}
+
+.row {
+    width: 90%;
 }
 </style>
