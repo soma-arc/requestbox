@@ -90,17 +90,18 @@ export default {
         postRequest: function() {
             if (this.checkInputs() === false) return;
             let formatStr = '';
+            console.log(this.format);
             if(this.format === 'experiment') {
-                formatStr = '実験'
+                formatStr = '実験';
             } else if (this.format === 'questionnaire') {
-                formatStr = 'アンケート'
+                formatStr = 'アンケート';
             } else if (this.format === 'other') {
                 formatStr = this.formatOther
             }
             Request.AddToDatabase(this.loggedInUser.id, this.loggedInUser.name,
                                   this.loggedInUser.lab, this.title, this.location,
                                   formatStr, this.dateList, this.deadline,
-                                  this.time, this.num, this.requirements,
+                                  this.time.replace('00時間', ''), this.num, this.requirements,
                                   this.rewards, this.abstract, this.contact, this.details);
             this.initFields();
             this.goToBoard();
@@ -144,7 +145,6 @@ export default {
         lab: function() {
             return (this.loggedInUser.lab === '') ? '未設定' : this.loggedInUser.lab;
         }
-
     }
 }
 </script>

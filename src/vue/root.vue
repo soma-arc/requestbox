@@ -21,6 +21,7 @@ import BoardPanel from './board-panel.vue';
 import RequestPanel from './request-panel.vue';
 import SignInPanel from './sign-in-panel.vue';
 import HeaderPanel from './header-panel.vue';
+import UserPanel from './user-panel.vue';
 
 export default {
     props: ['currentRoute', 'requestList', 'loggedInUser'],
@@ -39,6 +40,7 @@ export default {
         RequestPanel,
         SignInPanel,
         HeaderPanel,
+        UserPanel
     }
 }
 </script>

@@ -2,5 +2,6 @@
     "/": "board-panel",
     "/sign-in": "sign-in-panel",
     "/register": "register-panel",
-    "/request": "request-panel"
+    "/request": "request-panel",
+    "/user": "user-panel"
 }

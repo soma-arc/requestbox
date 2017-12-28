@@ -24,6 +24,8 @@ export default class Request {
                 requirements, rewards, abstract, contact, details) {
         this.id = id;
         this.authorId = authorId;
+        this.authorName = authorName;
+        this.authorLab = authorLab;
         this.title = title;
         this.location = location;
         this.format = format;
