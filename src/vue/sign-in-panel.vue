@@ -53,8 +53,18 @@ export default {
                     console.log(`${error.code} ... ${error.message}`);
                 }).then((result) => {
                     const user = result.user;
-                    console.log(user);
-                    this.loggedInUser.setData(user.uid, user.email, user.displayName, '', true);
+                    firebase.database().ref(`/users/${user.uid}`).once('value')
+                        .then((result) => {
+                            if(result.val() === null) {
+                                firebase.database().ref(`users/${user.uid}`).set({
+                                    id: user.uid,
+                                    name: user.displayName,
+                                    lab: ''
+                                });
+                            }
+                            this.loggedInUser.setData(user.uid, user.email,
+                                                      user.displayName, '', true);
+                        });
                     this.initFields();
                     this.goToBoard();
                 });

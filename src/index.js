@@ -30,20 +30,23 @@ window.addEventListener('load', function() {
 
     const db = firebase.database();
     const posts = db.ref('/posts');
-    posts.on('child_added', function(data) {
+    posts.on('child_added', (data) => {
         // console.log(data.val());
         requestList.push(Request.CreateFromDBData(data.val()));
     });
-    posts.on('child_changed', function(data) {
+    posts.on('child_changed', (data) => {
         // console.log('updated');
         console.log(data.val());
     });
 
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             if (d.loggedInUser.authorized === false) {
-                d.loggedInUser.setData(user.uid, user.email, '',
-                                       '', true);
+                db.ref(`/users/${user.uid}`).once('value')
+                    .then((result) => {
+                        d.loggedInUser.setData(user.uid, user.email, result.val().name,
+                                               result.val().lab, true);
+                    });
             }
             console.log('authorized')
         } else {
@@ -56,18 +59,18 @@ window.addEventListener('load', function() {
     });
 
     const messaging = firebase.messaging();
-    messaging.onTokenRefresh(function() {
+    messaging.onTokenRefresh(() => {
         messaging.getToken()
-            .then(function(refreshedToken) {
+            .then((refreshedToken) => {
                 console.log('Token refreshed.');
                 firebase.database().ref(`/tokns/${refreshedToken}`).set(true);
             })
-            .catch(function(err) {
+            .catch((err) => {
                 console.log('Unable to retrieve refreshed token ', err);
             });
     });
 
-    messaging.onMessage(function(payload) {
+    messaging.onMessage((payload) => {
         console.log("Message received. ", payload);
     });
 });

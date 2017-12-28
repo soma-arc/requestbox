@@ -2,10 +2,10 @@
   <header>
     <div id="left-container">
       <a href="/" class="logo">RequestBox</a>
-      <v-link  href="/" role="button">Board</v-link>
-      <v-link  href="/request" role="button">Request</v-link>
-      <button @click="req" role="button"
-              >request</button>
+      <v-link href="/" role="button">Board</v-link>
+      <v-link href="/request" role="button"
+              v-show="loggedInUser.authorized">Request</v-link>
+      <button @click="enableNotification" role="button">EnableNotification</button>
     </div>
     <div id="right-container">
       <v-link href="/home" role="button"
@@ -44,7 +44,7 @@ export default {
                 '/'
             );
         },
-        req: function() {
+        enableNotification: function() {
             const messaging = firebase.messaging();
             navigator.serviceWorker.register('firebaseMessagingSw.js')
                      .then((registration) => {

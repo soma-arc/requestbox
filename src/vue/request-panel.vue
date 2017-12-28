@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>実験依頼を投稿する</h2>
+    <span>依頼者 {{ this.loggedInUser.name }}</span>
+    <span>所属研究室 {{ this.lab }}</span>
     タイトル<input v-model="title">
     場所<input v-model="location">
     実験日時
@@ -95,7 +97,8 @@ export default {
             } else if (this.format === 'other') {
                 formatStr = this.formatOther
             }
-            Request.AddToDatabase(this.loggedInUser.id, this.title, this.location,
+            Request.AddToDatabase(this.loggedInUser.id, this.loggedInUser.name,
+                                  this.loggedInUser.lab, this.title, this.location,
                                   formatStr, this.dateList, this.deadline,
                                   this.time, this.num, this.requirements,
                                   this.rewards, this.abstract, this.contact, this.details);
@@ -136,6 +139,12 @@ export default {
     components: {
         FlatPickr,
         ErrorCard
+    },
+    computed: {
+        lab: function() {
+            return (this.loggedInUser.lab === '') ? '未設定' : this.loggedInUser.lab;
+        }
+
     }
 }
 </script>

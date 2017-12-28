@@ -5,6 +5,8 @@ export default class Request {
      *
      * @param {String} id
      * @param {String} authorId
+     * @param {String} authorName
+     * @param {String} authorLab
      * @param {String} title
      * @param {String} location
      * @param {String} format
@@ -18,7 +20,7 @@ export default class Request {
      * @param {String} contact
      * @param {String} details
      */
-    constructor(id, authorId, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
+    constructor(id, authorId, authorName, authorLab, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
                 requirements, rewards, abstract, contact, details) {
         this.id = id;
         this.authorId = authorId;
@@ -37,7 +39,7 @@ export default class Request {
     }
 
     static CreateFromDBData(obj) {
-        return new Request(obj.id, obj.authorId, obj.title,
+        return new Request(obj.id, obj.authorId, obj.authorName, obj.authorLab, obj.title,
                            obj.location, obj.format, obj.dateOfExperiment,
                            obj.dateOfDeadline, obj.time, obj.num, obj.requirements,
                            obj.rewards, obj.abstract, obj.contact, obj.details);
@@ -46,6 +48,8 @@ export default class Request {
     /**
      *
      * @param {String} authorId
+     * @param {String} authorName
+     * @param {String} authorLab
      * @param {String} title
      * @param {String} location
      * @param {String} format
@@ -60,12 +64,14 @@ export default class Request {
      * @param {String} details
      * @return {Request}
      */
-    static AddToDatabase (authorId, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
+    static AddToDatabase (authorId, authorName, authorLab, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
                           requirements, rewards, abstract, contact, details) {
         const newPostKey = firebase.database().ref().child('posts').push().key;
         const postData = {
             id: newPostKey,
             authorId: authorId,
+            authorName: authorName,
+            authorLab: authorLab,
             title: title,
             location: location,
             format: format,
