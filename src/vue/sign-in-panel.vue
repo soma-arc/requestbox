@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>Sign In</h2>
-    Email<input v-model="email">
-    Password<input v-model="password" type="password">
+    Email<input v-model="email" :required="true">
+    Password<input v-model="password" type="password" :required="true">
      <div>
         <button @click="signInWithEmailAndPassword">Sign In</button> or
         <button @click="signInGoogle">Sign in with Google account</button>

@@ -3,7 +3,7 @@
     <h2>実験依頼を投稿する</h2>
     <span>依頼者 {{ this.loggedInUser.name }}</span>
     <span>所属研究室 {{ this.lab }}</span>
-    タイトル<input v-model="title">
+    タイトル *<input v-model="title" :required="true">
     場所<input v-model="location">
     実験日時
     <div v-for="(dateInput, index) in dateList">
@@ -30,12 +30,12 @@
                name="format-radio" value="other" tabindex="0"><label for="rad2">その他</label>
     </div>
     <transition name="component-fade" mode="out-in">
-      <input v-show="format === 'other'" v-model="formatOther">
+      <input v-show="format === 'other'" v-model="formatOther" :required="true">
     </transition>
     募集条件<input v-model="requirements">
-    連絡先<input v-model="contact">
-    詳細
-    <textarea v-model="details"></textarea>
+    連絡先 *<input v-model="contact" :required="true">
+    詳細 *
+    <textarea v-model="details" :required="true"></textarea>
     <button @click="postRequest">送信</button>
     <transition name="component-fade" mode="out-in">
       <error-card :error="errorObj" v-show="errorObj.code"/>
@@ -89,6 +89,9 @@ export default {
         }
     },
     methods: {
+        check: function() {
+            return false;
+        },
         postRequest: function() {
             if (this.checkInputs() === false) return;
             let formatStr = '';

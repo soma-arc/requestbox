@@ -1,10 +1,11 @@
 <template>
   <div>
     <h2>Registration</h2>
-    Name<input v-model="name">
-    Lab<input v-model="lab">
-    email<input v-model="email">
-    password<input type="password" v-model="password">
+    Name *<input v-model="name" :required="true">
+    Lab *<input v-model="lab" :required="true">
+    Email *<input v-model="email" :required="true">
+    Password *<input type="password" v-model="password"
+                     :required="true" :minlength="7">
     <div>
       <button @click="register">Register</button> or <button @click="signInGoogle">Sign in with Google account</button>
     </div>
@@ -20,6 +21,7 @@ import ErrorCard from './error-card.vue';
 const firebase = require('firebase/app');
 
 export default {
+    props: ['currentRoute', 'loggedInUser'],
     data: function() {
         return {
             name: '',
