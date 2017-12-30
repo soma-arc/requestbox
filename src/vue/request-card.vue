@@ -72,7 +72,7 @@ export default {
 
 <style>
 .card {
-    height: 280px;
+    height: 300px;
     display: flex;
 }
 
