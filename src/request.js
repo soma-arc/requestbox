@@ -20,7 +20,9 @@ export default class Request {
      * @param {String} contact
      * @param {String} details
      */
-    constructor(id, authorId, authorName, authorLab, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
+    constructor(id, authorId, authorName, authorLab,
+                title, location, format, dateOfExperiment,
+                dateOfDeadline, time, num,
                 requirements, rewards, abstract, contact, details) {
         this.id = id;
         this.authorId = authorId;
