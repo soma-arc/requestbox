@@ -35,8 +35,16 @@ window.addEventListener('load', function() {
         requestList.push(Request.CreateFromDBData(data.val()));
     });
     posts.on('child_changed', (data) => {
-        // console.log('updated');
-        console.log(data.val());
+        console.log('updated');
+        const d = data.val();
+        const updatedRequest = requestList.find((element, index, array) => {
+            return d.id === element.id;
+        });
+        if (updatedRequest !== undefined) {
+            updatedRequest.updateData(d.title, d.location, d.format, d.dateOfExperiment,
+                                      d.dateOfDeadline, d.time, d.num,
+                                      d.requirements, d.rewards, d.contact, d.details);
+        }
     });
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -71,6 +79,6 @@ window.addEventListener('load', function() {
     });
 
     messaging.onMessage((payload) => {
-        console.log("Message received. ", payload);
+        console.log('Message received. ', payload);
     });
 });

@@ -42,6 +42,45 @@ export default class Request {
         this.details = details;
     }
 
+    updateData(title, location, format, dateOfExperiment,
+               dateOfDeadline, time, num,
+               requirements, rewards, contact, details) {
+        this.title = title;
+        this.location = location;
+        this.format = format;
+        this.dateOfExperiment = dateOfExperiment;
+        this.time = time;
+        this.num = num;
+        this.requirements = requirements;
+        this.dateOfDeadline = dateOfDeadline;
+        this.rewards = rewards;
+        this.contact = contact;
+        this.details = details;
+    }
+
+    updateDBData() {
+        console.log(this.dateOfExperiment)
+        const postData = {
+            id: this.id,
+            authorId: this.authorId,
+            authorName: this.authorName,
+            authorLab: this.authorLab,
+            title: this.title,
+            location: this.location,
+            format: this.format,
+            dateOfExperiment: this.dateOfExperiment,
+            dateOfDeadline: this.dateOfDeadline,
+            time: this.time,
+            num: this.num,
+            requirements: this.requirements,
+            rewards: this.rewards,
+            abstract: this.abstract,
+            contact: this.contact,
+            details: this.details
+        }
+        firebase.database().ref(`/posts/${this.id}`).update(postData);
+    }
+
     static CreateFromDBData(obj) {
         return new Request(obj.id, obj.authorId, obj.authorName, obj.authorLab, obj.title,
                            obj.location, obj.format, obj.dateOfExperiment,
@@ -68,7 +107,8 @@ export default class Request {
      * @param {String} details
      * @return {Request}
      */
-    static AddToDatabase (authorId, authorName, authorLab, title, location, format, dateOfExperiment, dateOfDeadline, time, num,
+    static AddToDatabase (authorId, authorName, authorLab, title, location, format,
+                          dateOfExperiment, dateOfDeadline, time, num,
                           requirements, rewards, abstract, contact, details) {
         const newPostKey = firebase.database().ref().child('posts').push().key;
         const postData = {
